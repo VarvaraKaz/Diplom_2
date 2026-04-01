@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+# Виртуальные окружения
+venv/
+.env/
+.env.*
+
+# Pytest cache
+.pytest_cache/
+.cache/
+
+# Allure результаты
+allure-results/
+allure-report/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи
+*.log
+
+# Temporary files
+*.tmp
+*.bak
