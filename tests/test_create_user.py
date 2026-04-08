@@ -1,6 +1,6 @@
 import pytest
 import allure
-from api_methods.user_api import create_user
+from api_methods.user_api import create_user, delete_user
 from conftest import generate_user_data
 from data import STATUS_OK, STATUS_FORBIDDEN, MESSAGE_USER_EXISTS, MESSAGE_REQUIRED_FIELDS, CREATE_USER_DATA_WITHOUT_NAME, CREATE_USER_DATA_WITHOUT_EMAIL, CREATE_USER_DATA_WITHOUT_PASSWORD
 
@@ -11,10 +11,15 @@ def test_create_unique_user():
     user = generate_user_data()
     with allure.step("Отправка запроса на создание нового пользователя"):
         response = create_user(user)
-    
-    with allure.step("Проверка ответа сервера"):
-        assert response.status_code == STATUS_OK
-        assert response.json()['success'] is True
+    try:
+        with allure.step("Проверка ответа сервера"):
+            assert response.status_code == STATUS_OK
+            assert response.json()['success'] is True
+    finally:
+        access_token = response.json().get('accessToken')
+        if access_token:
+            with allure.step("Удаление созданного пользователя"):
+                delete_user(access_token)
 
 @allure.epic("Пользователи")
 @allure.feature("Создание пользователя")
