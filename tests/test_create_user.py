@@ -9,12 +9,14 @@ from data import STATUS_OK, STATUS_FORBIDDEN, MESSAGE_USER_EXISTS, MESSAGE_REQUI
 @allure.story("Создание уникального пользователя")
 def test_create_unique_user(user_cleanup):
     user = generate_user_data()
-    response = create_user(user)
+    with allure.step("Отправка запроса на создание нового пользователя"):
+        response = create_user(user)
 
     user_cleanup(response)
 
-    assert response.status_code == STATUS_OK
-    assert response.json()['success'] is True
+    with allure.step("Проверка ответа сервера"):
+        assert response.status_code == STATUS_OK
+        assert response.json()['success'] is True
 
 @allure.epic("Пользователи")
 @allure.feature("Создание пользователя")
