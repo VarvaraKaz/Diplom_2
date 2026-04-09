@@ -18,3 +18,17 @@ def create_user_fixture():
 
     if access_token:
         delete_user(access_token)
+
+@pytest.fixture
+def user_cleanup():
+    tokens = []
+
+    def register_for_cleanup(response):
+        token = response.json().get('accessToken')
+        if token:
+            tokens.append(token)
+
+    yield register_for_cleanup
+
+    for token in tokens:
+        delete_user(token)
